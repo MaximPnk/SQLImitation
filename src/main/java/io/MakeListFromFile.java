@@ -13,7 +13,7 @@ public class MakeListFromFile {
     private ArrayList<StartDataLine> arrayList = new ArrayList<>();
     private LinkedList<StartDataLine> linkedList = new LinkedList<>();
     private HashMap<StartDataLine, Integer> hashMap = new HashMap<>();
-    private HashMap<Integer, String> map = new HashMap<>();
+    private HashMap<Integer, String> equalsHashMap = new HashMap<>();
 
     public void readData(String fileName) {
         String line;
@@ -25,6 +25,13 @@ public class MakeListFromFile {
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
+        linkedList = new LinkedList<>(arrayList);
+        for (int i = 0; i < arrayList.size(); i++) {
+            hashMap.put(arrayList.get(i), arrayList.get(i).getNumber());
+            int finalI = i;
+            equalsHashMap.computeIfPresent(arrayList.get(i).getNumber(), (key, value) -> value + "#" + arrayList.get(finalI).getValue());
+            equalsHashMap.putIfAbsent(arrayList.get(i).getNumber(), arrayList.get(i).getValue());
+        }
     }
 
     private void addDataLineIfPossible(String line) throws NumberFormatException {
@@ -32,13 +39,6 @@ public class MakeListFromFile {
             return;
         }
         arrayList.add(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]));
-        linkedList.add(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]));
-        hashMap.put(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]), Integer.parseInt(line.split(",")[0]));
-        if (map.containsKey(Integer.parseInt(line.split(",")[0]))) {
-            map.put(Integer.parseInt(line.split(",")[0]), map.get(Integer.parseInt(line.split(",")[0])) + "#" + line.split(",")[1]);
-        } else {
-            map.put(Integer.parseInt(line.split(",")[0]), line.split(",")[1]);
-        }
     }
 
     public ArrayList<StartDataLine> getArrayList() {
@@ -53,7 +53,7 @@ public class MakeListFromFile {
         return hashMap;
     }
 
-    public HashMap<Integer, String> getMap() {
-        return map;
+    public HashMap<Integer, String> getEqualsHashMap() {
+        return equalsHashMap;
     }
 }

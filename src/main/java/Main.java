@@ -1,4 +1,3 @@
-import io.RandomWriter;
 import models.FinalDataLine;
 import commands.InnerJoin;
 import io.MakeListFromFile;
@@ -39,7 +38,7 @@ public class Main {
 
             //HashMap с логикой equals
             long equalsMapStart = System.currentTimeMillis();
-            ArrayList<FinalDataLine> equalsMapJoin = InnerJoin.equalsMapJoin(dataA.getMap(), dataB.getMap());
+            ArrayList<FinalDataLine> equalsMapJoin = InnerJoin.equalsMapJoin(dataA.getEqualsHashMap(), dataB.getEqualsHashMap());
             long equalsMapFinish = System.currentTimeMillis();
 
 
