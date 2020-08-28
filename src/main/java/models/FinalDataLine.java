@@ -1,6 +1,6 @@
 package models;
 
-public class FinalDataLine {
+public class FinalDataLine implements Comparable<FinalDataLine> {
     private Integer number;
     private String valueA;
     private String valueB;
@@ -14,5 +14,10 @@ public class FinalDataLine {
     @Override
     public String toString() {
         return number + " " + valueA + " " + valueB;
+    }
+
+    @Override
+    public int compareTo(FinalDataLine o) {
+        return this.number - o.number;
     }
 }

@@ -1,12 +1,9 @@
 import io.RandomWriter;
 import models.FinalDataLine;
-import models.StartDataLine;
 import commands.InnerJoin;
 import io.MakeListFromFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Main {
 
@@ -17,7 +14,7 @@ public class Main {
              * Закинет рандомные данные в аргументы
              * (Перепишет исходные файлы)
              */
-            //RandomWriter.writer(args[0], args[1], 10000);
+//            RandomWriter.writer(args[0], args[1], 10000);
 
             MakeListFromFile dataA = new MakeListFromFile();
             dataA.readData(args[0]);
@@ -25,41 +22,37 @@ public class Main {
             dataB.readData(args[1]);
 
             //ArrayList
-            ArrayList<StartDataLine> arrayListA = dataA.getArrayList();
-            ArrayList<StartDataLine> arrayListB = dataB.getArrayList();
             long arrayStart = System.currentTimeMillis();
-            ArrayList<FinalDataLine> arrayJoin = InnerJoin.arrayJoin(arrayListA, arrayListB);
+            ArrayList<FinalDataLine> arrayJoin = InnerJoin.arrayJoin(dataA.getArrayList(), dataB.getArrayList());
             long arrayFinish = System.currentTimeMillis();
-            for (FinalDataLine data : arrayJoin) {
-                System.out.println(data);
-            }
-            System.out.println();
+            Collections.sort(arrayJoin);
 
             //LinkedList
-            LinkedList<StartDataLine> linkedListA = dataA.getLinkedList();
-            LinkedList<StartDataLine> linkedListB = dataB.getLinkedList();
             long linkedStart = System.currentTimeMillis();
-            ArrayList<FinalDataLine> linkedJoin = InnerJoin.linkedJoin(linkedListA, linkedListB);
+            ArrayList<FinalDataLine> linkedJoin = InnerJoin.linkedJoin(dataA.getLinkedList(), dataB.getLinkedList());
             long linkedFinish = System.currentTimeMillis();
-            for (FinalDataLine data : linkedJoin) {
-                System.out.println(data);
-            }
-            System.out.println();
 
             //HashMap
-            HashMap<StartDataLine, Integer> mapA = dataA.getHashMap();
-            HashMap<StartDataLine, Integer> mapB = dataB.getHashMap();
             long mapStart = System.currentTimeMillis();
-            ArrayList<FinalDataLine> mapJoin = InnerJoin.mapJoin(mapA, mapB);
+            ArrayList<FinalDataLine> mapJoin = InnerJoin.mapJoin(dataA.getHashMap(), dataB.getHashMap());
             long mapFinish = System.currentTimeMillis();
-            for (FinalDataLine data : mapJoin) {
-                System.out.println(data);
-            }
-            System.out.println();
 
+            //HashMap с логикой equals
+            long equalsMapStart = System.currentTimeMillis();
+            ArrayList<FinalDataLine> equalsMapJoin = InnerJoin.equalsMapJoin(dataA.getMap(), dataB.getMap());
+            long equalsMapFinish = System.currentTimeMillis();
+
+
+            int min = Math.min(Math.min(Math.min(arrayJoin.size(), linkedJoin.size()), mapJoin.size()), equalsMapJoin.size()); //на случай ошибки в логике
+            for (int i = 0; i < min; i++) {
+                System.out.printf("%-25s%-25s%-25s%-25s\n", arrayJoin.get(i), linkedJoin.get(i), mapJoin.get(i), equalsMapJoin.get(i));
+            }
+            System.out.printf("%-25s%-25s%-25s%-25s\n", "ArrayList", "Sorted LinkedList", "HashMap", "HashMap with some logic");
+            System.out.println();
             System.out.println("Перебор ArrayList: " + (arrayFinish - arrayStart) + " миллисекунд. Кол-во джоинов = " + arrayJoin.size());
             System.out.println("Логика с listIterator и отсортированного LinkedList: " + (linkedFinish - linkedStart) + " миллисекунд. Кол-во джоинов = " + linkedJoin.size());
             System.out.println("Мапа: " + (mapFinish - mapStart) + " миллисекунд. Кол-во джоинов = " + mapJoin.size());
+            System.out.println("Мапа с логикой equals: " + (equalsMapFinish - equalsMapStart) + " миллисекунд. Кол-во джоинов = " + equalsMapJoin.size());
         }
     }
 

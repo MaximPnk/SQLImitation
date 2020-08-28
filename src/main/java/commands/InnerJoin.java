@@ -67,7 +67,21 @@ public class InnerJoin {
         for (Map.Entry<StartDataLine, Integer> mapA : dataA.entrySet()) {
             for (Map.Entry<StartDataLine, Integer> mapB : dataB.entrySet()) {
                 if (mapA.getValue().equals(mapB.getValue())) {
-                    list.add(new FinalDataLine(mapA.getValue(), mapA.getKey().getValue(), mapA.getKey().getValue()));
+                    list.add(new FinalDataLine(mapA.getValue(), mapA.getKey().getValue(), mapB.getKey().getValue()));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<FinalDataLine> equalsMapJoin(HashMap<Integer, String> dataA, HashMap<Integer, String> dataB) {
+        ArrayList<FinalDataLine> list = new ArrayList<>();
+        for (Map.Entry<Integer, String> pair : dataA.entrySet()) {
+            if (dataB.containsKey(pair.getKey())) {
+                for (int i = 0; i < pair.getValue().split("#").length; i++) {
+                    for (int j = 0; j < dataB.get(pair.getKey()).split("#").length; j++) {
+                        list.add(new FinalDataLine(pair.getKey(), pair.getValue().split("#")[i], dataB.get(pair.getKey()).split("#")[j]));
+                    }
                 }
             }
         }

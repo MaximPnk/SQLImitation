@@ -13,6 +13,7 @@ public class MakeListFromFile {
     private ArrayList<StartDataLine> arrayList = new ArrayList<>();
     private LinkedList<StartDataLine> linkedList = new LinkedList<>();
     private HashMap<StartDataLine, Integer> hashMap = new HashMap<>();
+    private HashMap<Integer, String> map = new HashMap<>();
 
     public void readData(String fileName) {
         String line;
@@ -33,6 +34,11 @@ public class MakeListFromFile {
         arrayList.add(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]));
         linkedList.add(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]));
         hashMap.put(new StartDataLine(Integer.parseInt(line.split(",")[0]), line.split(",")[1]), Integer.parseInt(line.split(",")[0]));
+        if (map.containsKey(Integer.parseInt(line.split(",")[0]))) {
+            map.put(Integer.parseInt(line.split(",")[0]), map.get(Integer.parseInt(line.split(",")[0])) + "#" + line.split(",")[1]);
+        } else {
+            map.put(Integer.parseInt(line.split(",")[0]), line.split(",")[1]);
+        }
     }
 
     public ArrayList<StartDataLine> getArrayList() {
@@ -45,5 +51,9 @@ public class MakeListFromFile {
 
     public HashMap<StartDataLine, Integer> getHashMap() {
         return hashMap;
+    }
+
+    public HashMap<Integer, String> getMap() {
+        return map;
     }
 }
