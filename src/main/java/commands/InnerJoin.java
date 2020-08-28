@@ -9,10 +9,10 @@ public class InnerJoin {
 
     public static ArrayList<FinalDataLine> arrayJoin(List<StartDataLine> dataA, List<StartDataLine> dataB) {
         ArrayList<FinalDataLine> list = new ArrayList<>();
-        for (int i = 0; i < dataA.size(); i++) {
-            for (int j = 0; j < dataB.size(); j++) {
-                if (dataA.get(i).getNumber() == dataB.get(j).getNumber()) {
-                    list.add(new FinalDataLine(dataA.get(i).getNumber(), dataA.get(i).getValue(), dataB.get(j).getValue()));
+        for (StartDataLine startDataLine : dataA) {
+            for (StartDataLine dataLine : dataB) {
+                if (startDataLine.getNumber() == dataLine.getNumber()) {
+                    list.add(new FinalDataLine(startDataLine.getNumber(), startDataLine.getValue(), dataLine.getValue()));
                 }
             }
         }
@@ -62,12 +62,12 @@ public class InnerJoin {
         return list;
     }
 
-    public static ArrayList<FinalDataLine> mapJoin(HashMap<StartDataLine, String> dataA, HashMap<StartDataLine, String> dataB) {
+    public static ArrayList<FinalDataLine> mapJoin(HashMap<StartDataLine, Integer> dataA, HashMap<StartDataLine, Integer> dataB) {
         ArrayList<FinalDataLine> list = new ArrayList<>();
-        for (StartDataLine a : dataA.keySet()) {
-            for (StartDataLine b : dataB.keySet()) {
-                if (a.getNumber() == b.getNumber()) {
-                    list.add(new FinalDataLine(a.getNumber(), a.getValue(), b.getValue()));
+        for (Map.Entry<StartDataLine, Integer> mapA : dataA.entrySet()) {
+            for (Map.Entry<StartDataLine, Integer> mapB : dataB.entrySet()) {
+                if (mapA.getValue().equals(mapB.getValue())) {
+                    list.add(new FinalDataLine(mapA.getValue(), mapA.getKey().getValue(), mapA.getKey().getValue()));
                 }
             }
         }

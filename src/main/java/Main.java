@@ -5,7 +5,6 @@ import commands.InnerJoin;
 import io.MakeListFromFile;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -48,8 +47,8 @@ public class Main {
             System.out.println();
 
             //HashMap
-            HashMap<StartDataLine, String> mapA = dataA.getHashMap();
-            HashMap<StartDataLine, String> mapB = dataB.getHashMap();
+            HashMap<StartDataLine, Integer> mapA = dataA.getHashMap();
+            HashMap<StartDataLine, Integer> mapB = dataB.getHashMap();
             long mapStart = System.currentTimeMillis();
             ArrayList<FinalDataLine> mapJoin = InnerJoin.mapJoin(mapA, mapB);
             long mapFinish = System.currentTimeMillis();

@@ -28,4 +28,18 @@ public class StartDataLine implements Comparable<StartDataLine> {
     public int compareTo(StartDataLine o) {
         return this.number - o.number;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StartDataLine that = (StartDataLine) o;
+        return number == that.number &&
+                Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number);
+    }
 }
